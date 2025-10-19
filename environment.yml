@@ -1,0 +1,21 @@
+name: default
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - scipy
+  - scikit-learn
+  - pytorch
+  - botorch
+  - ax-platform
+  - pymc
+  - statsmodels
+  - salabim
+  - statannotations
+  - jupyter
+  - black
+  - black-jupyter

@@ -1,0 +1,42 @@
+# Configuration file for macOS setup
+# Define the tools, apps, fonts, and Python environment settings for the setup.
+
+# Homebrew taps (additional repositories)
+# Specify any additional Homebrew repositories (taps) required for certain apps.
+taps:
+  - tsung-ju/iguanatexmac
+
+# CLI tools (Homebrew formulae)
+# List of command-line tools to install via Homebrew.
+# Note: curl, make, and yq are not needed here as they are prerequisites.
+tools:
+  - git
+  - wget
+  - gh
+  - jq
+  - fd
+  - ripgrep
+  - zsh
+  - typst
+
+# GUI apps (Homebrew casks)
+# List of graphical applications (only trusted ones) to install via Homebrew casks.
+apps:
+  - visual-studio-code
+  - docker
+  - mactex
+  - qsync-client
+  - iguanatexmac
+  - latexit-metadata
+
+# Fonts (Homebrew casks)
+# List of fonts to install via Homebrew casks.
+fonts:
+  - font-fira-code
+  - font-fira-sans
+  - font-source-sans-3
+  - font-source-code-pro
+  - font-inconsolata
+
+# Default data science Conda environment name
+default_env_name: default
