@@ -17,17 +17,25 @@ tools:
   - fd
   - ripgrep
   - zsh
+  - gnupg
   - typst
 
 # GUI apps (Homebrew casks)
 # List of graphical applications (only trusted ones) to install via Homebrew casks.
 apps:
+  - miniforge
   - visual-studio-code
+  - iterm2
+  - github
   - docker
+  - docker-desktop
   - mactex
-  - qsync-client
   - iguanatexmac
+  - latexit
   - latexit-metadata
+  - qsync-client
+  - betterdisplay
+  - wailbrew
 
 # Fonts (Homebrew casks)
 # List of fonts to install via Homebrew casks.
@@ -40,3 +48,5 @@ fonts:
 
 # Default data science Conda environment name
 default_env_name: default
+
+
