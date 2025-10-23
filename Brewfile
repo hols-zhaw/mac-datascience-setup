@@ -60,6 +60,8 @@ cask "chatgpt"
 cask "claude"
 # Music streaming service
 cask "spotify"
+# Multi-agent programmable modelling environment
+cask "netlogo"
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
