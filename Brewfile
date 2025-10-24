@@ -1,6 +1,7 @@
-tap "theboredteam/boring-notch"
+tap "buo/cask-upgrade"
 tap "tsung-ju/iguanatexmac"
 tap "wickenico/wailbrew"
+# tap "TheBoredTeam/boring-notch"
 
 # Internet file retriever
 brew "wget"
@@ -62,6 +63,14 @@ cask "claude"
 cask "spotify"
 # Multi-agent programmable modelling environment
 cask "netlogo"
+# Video communication and virtual meeting platform
+cask "zoom"
+# Collect, organise, cite, and share research sources
+cask "zotero"
+# Web browser environment to carry out e-assessments safely
+cask "safe-exam-browser"
+# The boring notch (https://theboring.name)
+# cask "boring-notch"
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
