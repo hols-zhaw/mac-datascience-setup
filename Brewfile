@@ -3,6 +3,8 @@ tap "tsung-ju/iguanatexmac"
 tap "wickenico/wailbrew"
 # tap "TheBoredTeam/boring-notch"
 
+# Mac App Store command-line interface
+brew "mas"
 # Internet file retriever
 brew "wget"
 # Simple, fast and user-friendly alternative to find
@@ -33,51 +35,51 @@ cask "visual-studio-code", greedy: true
 # Desktop client for GitHub repositories
 cask "github", greedy: true
 # Minimal installer for conda specific to conda-forge
-cask "miniforge"
+cask "miniforge", greedy: true
 # App to build and share containerised applications and microservices
 cask "docker-desktop", greedy: true
 # Google Chrome Web browser
 cask "google-chrome", greedy: true
 # Full TeX Live distribution with GUI applications
-cask "mactex"
+cask "mactex", greedy: true
 # LaTeX typesetting for PowerPoint
-cask "iguanatexmac"
+cask "iguanatexmac", greedy: true
 # Graphical interface for LaTeX
-cask "latexit", greedy: true
-cask "latexit-metadata"
+# cask "latexit", greedy: true
+# cask "latexit-metadata", greedy: true
 # Display management tool
-cask "betterdisplay", greedy: true
+# cask "betterdisplay", greedy: true
 # Client for Proton Drive
-cask "proton-drive"
+cask "proton-drive", greedy: true
 # Client for Proton Mail and Proton Calendar
-cask "proton-mail"
+cask "proton-mail", greedy: true
 # VPN client focusing on security
-cask "protonvpn"
+cask "protonvpn", greedy: true
 # Manage Homebrew packages with a UI
-cask "wailbrew"
+# cask "wailbrew", greedy: true
 # OpenAI's official ChatGPT desktop app
-cask "chatgpt"
+cask "chatgpt", greedy: true
 # Anthropic's official Claude AI desktop app
-cask "claude"
+cask "claude", greedy: true
 # Music streaming service
-cask "spotify"
+cask "spotify", greedy: true
 # Multi-agent programmable modelling environment
-cask "netlogo"
+cask "netlogo", greedy: true
 # Video communication and virtual meeting platform
-cask "zoom"
+cask "zoom", greedy: true
 # Collect, organise, cite, and share research sources
-cask "zotero"
+cask "zotero", greedy: true
 # Web browser environment to carry out e-assessments safely
-cask "safe-exam-browser"
+cask "safe-exam-browser", greedy: true
 # The boring notch (https://theboring.name)
 # cask "boring-notch"
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
 cask "font-fira-sans"
-cask "font-inconsolata"
-cask "font-source-code-pro"
-cask "font-source-sans-3"
+# cask "font-inconsolata"
+# cask "font-source-code-pro"
+# cask "font-source-sans-3"
 
 
 # vscode "affenwiesel.matlab-formatter"
