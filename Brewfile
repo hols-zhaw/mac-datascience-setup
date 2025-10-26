@@ -39,7 +39,7 @@ cask "visual-studio-code"
 cask "github"
 # Minimal installer for conda specific to conda-forge
 # Automatically updates the conda environment after installation
-cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes"
+cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes && mamba clean -yaf"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
 # Google Chrome Web browser
