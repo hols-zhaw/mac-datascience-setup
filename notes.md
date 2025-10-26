@@ -11,7 +11,9 @@ sudo chown -R $USER $(brew --prefix)/*
 chmod u+w $(brew --prefix)/*
 ```
 
-to have apps installed in the user's app folder add `export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"` to ~/.zshenv
+- to have apps installed in the user's app folder add `export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"` to ~/.zshenv
 
+## Mac App Store command-line interface
 
-betterdisplay font-source-code-pro latexit-metadata safe-exam-browser chatgpt font-source-sans-3 mactex visual-studio-code claude github miniforge wailbrew docker-desktop google-chrome netlogo zoom font-fira-code iguanatexmac proton-drive zotero font-fira-sans iterm2 proton-mail font-inconsolata latexit protonvpn
+- `mas list` - lists installed apps
+- in Brewfile: `mas "Xcode", id: 497799835`
