@@ -3,6 +3,9 @@ tap "tsung-ju/iguanatexmac"
 tap "wickenico/wailbrew"
 # tap "TheBoredTeam/boring-notch"
 
+# Set arguments passed to all `brew install --cask` commands for `cask "..."`
+cask_args appdir: "~/Applications", greedy: true, require_sha: true
+
 # Mac App Store command-line interface
 brew "mas"
 # Internet file retriever
@@ -29,48 +32,47 @@ brew "typst"
 brew "uv"
 
 # Terminal emulator as alternative to Apple's Terminal app
-cask "iterm2", greedy: true
+cask "iterm2"
 # Open-source code editor
-cask "visual-studio-code", greedy: true
+cask "visual-studio-code"
 # Desktop client for GitHub repositories
-cask "github", greedy: true
+cask "github"
 # Minimal installer for conda specific to conda-forge
-cask "miniforge", greedy: true
+# Automatically updates the conda environment after installation
+cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes"
 # App to build and share containerised applications and microservices
-cask "docker-desktop", greedy: true
+cask "docker-desktop"
 # Google Chrome Web browser
-cask "google-chrome", greedy: true
+cask "google-chrome"
 # Full TeX Live distribution with GUI applications
-cask "mactex", greedy: true
+cask "mactex"
 # LaTeX typesetting for PowerPoint
-cask "iguanatexmac", greedy: true
+cask "iguanatexmac"
 # Graphical interface for LaTeX
-# cask "latexit", greedy: true
-# cask "latexit-metadata", greedy: true
+# cask "latexit"
+# cask "latexit-metadata"
 # Display management tool
-# cask "betterdisplay", greedy: true
+# cask "betterdisplay"
 # Client for Proton Drive
-cask "proton-drive", greedy: true
-# Client for Proton Mail and Proton Calendar
-cask "proton-mail", greedy: true
+cask "proton-drive", args: { appdir: "/Applications" }
 # VPN client focusing on security
-cask "protonvpn", greedy: true
+cask "protonvpn"
 # Manage Homebrew packages with a UI
-# cask "wailbrew", greedy: true
+# cask "wailbrew"
 # OpenAI's official ChatGPT desktop app
-cask "chatgpt", greedy: true
+cask "chatgpt"
 # Anthropic's official Claude AI desktop app
-cask "claude", greedy: true
+cask "claude"
 # Music streaming service
-cask "spotify", greedy: true
+cask "spotify"
 # Multi-agent programmable modelling environment
-cask "netlogo", greedy: true
+cask "netlogo"
 # Video communication and virtual meeting platform
-cask "zoom", greedy: true
+cask "zoom"
 # Collect, organise, cite, and share research sources
-cask "zotero", greedy: true
+cask "zotero"
 # Web browser environment to carry out e-assessments safely
-cask "safe-exam-browser", greedy: true
+cask "safe-exam-browser", args: { appdir: "/Applications" }
 # The boring notch (https://theboring.name)
 # cask "boring-notch"
 
