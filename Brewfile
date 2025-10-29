@@ -30,6 +30,8 @@ brew "zsh"
 brew "typst"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
 
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
