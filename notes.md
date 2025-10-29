@@ -17,3 +17,14 @@ chmod u+w $(brew --prefix)/*
 
 - `mas list` - lists installed apps
 - in Brewfile: `mas "Xcode", id: 497799835`
+
+
+## LaTeX Workshop & Code Formatter
+
+Code formatting in LaTeX Workshop extension for VS Code requires `latexindent` to be installed. Is installed when installing the full MacTeX distribution via Homebrew Cask.
+
+Still there's an error when trying to format a LaTeX document. Need to install some Perl modules:
+
+```zsh
+cpan -i YAML::Tiny File::HomeDir Unicode::GCStrin
+```
