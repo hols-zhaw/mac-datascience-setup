@@ -20,7 +20,7 @@ BREW := /opt/homebrew/bin/brew
 ENV_FILE := environment.yml
 DEFAULT_ENV_NAME := default
 
-.PHONY: all homebrew bundle python
+.PHONY: all homebrew bundle python latex-perl
 
 # --- Main target: Complete setup ---
 all: homebrew bundle python
@@ -28,6 +28,8 @@ all: homebrew bundle python
 	@echo "=========================================="
 	@echo "✅ Complete setup finished successfully!"
 	@echo "=========================================="
+	@echo ""
+	@echo "ℹ️  Optional: Run 'make latex-perl' to install Perl modules for latexindent"
 	@echo ""
 
 # --- Step 1: Homebrew installation and configuration ---
@@ -226,3 +228,56 @@ python:
 	echo ""; \
 	echo "   Activate with: conda activate $$ENV_NAME"; \
 	echo ""
+
+# --- Step 4 (Optional): Perl modules for latexindent ---
+# Installs Perl modules that enable code formatting with latexindent.
+# These modules allow the LaTeX Workshop extension in VS Code to format .tex files.
+# Modules are installed system-wide using macOS system Perl (/usr/bin/perl) which
+# latexindent is configured to use by default.
+# Purpose: Enable latexindent code formatting functionality (included in Brewfile)
+# Note: Requires administrator password for sudo cpan installation
+latex-perl:
+	@echo "=========================================="
+	@echo "==> Optional: Perl Modules for latexindent"
+	@echo "=========================================="
+	@echo ""
+	@echo "Installing Perl modules..."
+	@echo ""
+	@if ! command -v latexindent >/dev/null 2>&1; then \
+		echo "  ⚠️  latexindent not found"; \
+		echo ""; \
+		echo "  These modules are useful when latexindent is installed."; \
+		echo "  To install MacTeX (which includes latexindent):"; \
+		echo ""; \
+		echo "    make bundle"; \
+		echo ""; \
+		echo "  You can install the modules now or run 'make latex-perl' later."; \
+		echo ""; \
+		read -p "  Continue installing Perl modules anyway? [y/N] " -n 1 -r; \
+		echo ""; \
+		if [[ ! $$REPLY =~ ^[Yy]$$ ]]; then \
+			echo "  Cancelled."; \
+			echo ""; \
+			exit 0; \
+		fi; \
+	else \
+		echo "  ✅ latexindent found: $$(command -v latexindent)"; \
+	fi
+	@echo ""
+	@echo "ℹ️  Installing Perl modules system-wide (requires sudo)"
+	@echo "   This allows latexindent to use these modules for code formatting."
+	@echo ""
+	@echo "Installing File::HomeDir..."
+	@sudo cpan -i File::HomeDir
+	@echo ""
+	@echo "Installing YAML::Tiny..."
+	@sudo cpan -i YAML::Tiny
+	@echo ""
+	@echo "Installing Unicode::GCString..."
+	@sudo cpan -i Unicode::GCString
+	@echo ""
+	@echo "✅ Perl modules installed successfully!"
+	@echo ""
+	@echo "📝 Perl modules are now available for latexindent"
+	@echo "   (LaTeX Workshop extension can now use latexindent for formatting)"
+	@echo ""

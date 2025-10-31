@@ -57,6 +57,7 @@ Run specific parts as needed:
 make homebrew    # Install Xcode tools and Homebrew
 make bundle      # Install Brewfile packages
 make python      # Setup Python environment
+make latex-perl  # (Optional) Install Perl modules for latexindent
 ```
 
 ## Configuration Files
@@ -113,13 +114,15 @@ Manage dotfiles across machines:
 
 ### LaTeX Code Formatting in VS Code
 
-Code formatting with the LaTeX Workshop extension requires additional Perl modules after installing MacTeX:
+**Solution**: The LaTeX Workshop extension requires Perl modules for `latexindent` to format code. After installing MacTeX, run:
 
 ```bash
-cpan -i YAML::Tiny File::HomeDir Unicode::GCString
+make latex-perl
 ```
 
-But still may encounter errors; further troubleshooting is be needed.
+This installs the required Perl modules (File::HomeDir, YAML::Tiny, Unicode::GCString) system-wide.
+
+**Note**: Modules must be installed with `sudo cpan` to be accessible to system-installed tools like `latexindent`.
 
 ## License
 
