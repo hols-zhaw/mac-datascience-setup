@@ -11,7 +11,8 @@ sudo chown -R $USER $(brew --prefix)/*
 chmod u+w $(brew --prefix)/*
 ```
 
-- to have apps installed in the user's app folder add `export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"` to ~/.zshenv
+To have apps installed in the user's app folder add `export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"` to `~/.zshenv`
+
 
 ## Mac App Store command-line interface
 
@@ -28,3 +29,17 @@ Still there's an error when trying to format a LaTeX document. Need to install s
 ```zsh
 cpan -i YAML::Tiny File::HomeDir Unicode::GCStrin
 ```
+
+## Homebrew Graph
+
+Could be useful to visualize dependencies of installed formulae: https://github.com/martido/homebrew-graph
+
+
+## Chemoiz: Manage Dotfiles
+
+https://chezmoi.io/
+
+Install via Homebrew: `brew install chezmoi`
+
+Quick start: https://chezmoi.io/quick-start/
+
