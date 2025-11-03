@@ -10,20 +10,20 @@
 #   make all       - Run complete setup (homebrew → bundle → python)
 #   make homebrew  - Install and configure Homebrew only
 #   make bundle    - Install Brewfile packages only
-#   make python    - Setup Python environment only
+#   make conda     - Setup Conda/Mamba Python environment only
 #
 # All targets are idempotent and can be run multiple times safely.
 
 # Configuration
 BREWFILE := Brewfile
 BREW := /opt/homebrew/bin/brew
-ENV_FILE := environment.yml
-DEFAULT_ENV_NAME := default
+CONDA_ENV_FILE := environment.yml
+DEFAULT_CONDA_ENV_NAME := default
 
-.PHONY: all homebrew bundle python latex-perl
+.PHONY: all homebrew bundle conda latex-perl
 
 # --- Main target: Complete setup ---
-all: homebrew bundle python
+all: homebrew bundle conda
 	@echo ""
 	@echo "=========================================="
 	@echo "✅ Complete setup finished successfully!"
@@ -107,22 +107,22 @@ bundle: homebrew
 	@echo "✅ All Brewfile packages installed!"
 	@echo ""
 
-# --- Step 3: Python environment setup ---
+# --- Step 3: Conda/Mamba Python environment setup ---
 # Verifies Conda installation and configures shell integration
 # Detects mamba for faster operations (falls back to conda if not available)
-# Creates or updates Python environment from $(ENV_FILE) specification
+# Creates or updates Python environment from $(CONDA_ENV_FILE) specification
 # Steps:
 #   1. Verify conda is installed (required for shell initialization)
 #   2. Initialize conda for zsh with proper shell hooks
 #   3. Configure conda to not auto-activate base environment
-#   4. Parse environment name from $(ENV_FILE) or use $(DEFAULT_ENV_NAME)
+#   4. Parse environment name from $(CONDA_ENV_FILE) or use $(DEFAULT_CONDA_ENV_NAME)
 #   5. Detect mamba availability (faster alternative to conda)
 #   6. Create new environment or update existing one (with --prune flag)
 #   7. Clean package cache to reclaim disk space
 # Idempotent: Safe to run multiple times, updates environment if it exists
-python:
+conda:
 	@echo "=========================================="
-	@echo "==> Step 3: Python Environment Setup"
+	@echo "==> Step 3: Conda Python Environment Setup"
 	@echo "=========================================="
 	@echo ""
 	@echo "Verifying Conda installation..."
@@ -163,24 +163,24 @@ python:
 		echo "  ✅ auto_activate_base already set to false"; \
 	fi
 	@echo ""
-	@if [ ! -f $(ENV_FILE) ]; then \
-		echo "ℹ️  No $(ENV_FILE) found, skipping environment creation"; \
+	@if [ ! -f $(CONDA_ENV_FILE) ]; then \
+		echo "ℹ️  No $(CONDA_ENV_FILE) found, skipping environment creation"; \
 		echo ""; \
 		echo "   To create a Python environment:"; \
-		echo "   1. Add an $(ENV_FILE) file to this directory"; \
+		echo "   1. Add an $(CONDA_ENV_FILE) file to this directory"; \
 		echo "   2. Run 'make python' again"; \
 		echo ""; \
 		exit 0; \
 	fi
 	@echo "Parsing environment configuration..."
 	@if command -v yq >/dev/null 2>&1; then \
-		ENV_NAME="$$(yq -r '.name // "$(DEFAULT_ENV_NAME)"' $(ENV_FILE) 2>/dev/null || echo $(DEFAULT_ENV_NAME))"; \
+		ENV_NAME="$$(yq -r '.name // "$(DEFAULT_CONDA_ENV_NAME)"' $(CONDA_ENV_FILE) 2>/dev/null || echo $(DEFAULT_CONDA_ENV_NAME))"; \
 	else \
-		ENV_NAME="$$(grep '^name:' $(ENV_FILE) 2>/dev/null | sed 's/^name:[[:space:]]*//' || echo $(DEFAULT_ENV_NAME))"; \
+		ENV_NAME="$$(grep '^name:' $(CONDA_ENV_FILE) 2>/dev/null | sed 's/^name:[[:space:]]*//' || echo $(DEFAULT_CONDA_ENV_NAME))"; \
 	fi; \
 	if [ -z "$$ENV_NAME" ] || [ "$$ENV_NAME" = "null" ]; then \
-		ENV_NAME="$(DEFAULT_ENV_NAME)"; \
-		echo "  ⚠️  No name found in $(ENV_FILE), using: $$ENV_NAME"; \
+		ENV_NAME="$(DEFAULT_CONDA_ENV_NAME)"; \
+		echo "  ⚠️  No name found in $(CONDA_ENV_FILE), using: $$ENV_NAME"; \
 	else \
 		echo "  Environment name: $$ENV_NAME"; \
 	fi; \
@@ -198,7 +198,7 @@ python:
 	if $$CONDA_CMD env list 2>/dev/null | grep -q "^$$ENV_NAME[[:space:]]"; then \
 		echo "  Found existing environment '$$ENV_NAME'"; \
 		echo "  ⬇️  Updating environment..."; \
-		if $$CONDA_CMD env update -f $(ENV_FILE) -n $$ENV_NAME --yes --prune 2>&1; then \
+		if $$CONDA_CMD env update -f $(CONDA_ENV_FILE) -n $$ENV_NAME --yes --prune 2>&1; then \
 			echo "  ✅ Environment '$$ENV_NAME' updated successfully"; \
 		else \
 			echo "  ❌ Failed to update environment '$$ENV_NAME'"; \
@@ -208,7 +208,7 @@ python:
 	else \
 		echo "  Environment '$$ENV_NAME' not found"; \
 		echo "  ⬇️  Creating new environment..."; \
-		if $$CONDA_CMD env create -f $(ENV_FILE) -n $$ENV_NAME --yes 2>&1; then \
+		if $$CONDA_CMD env create -f $(CONDA_ENV_FILE) -n $$ENV_NAME --yes 2>&1; then \
 			echo "  ✅ Environment '$$ENV_NAME' created successfully"; \
 		else \
 			echo "  ❌ Failed to create environment '$$ENV_NAME'"; \
