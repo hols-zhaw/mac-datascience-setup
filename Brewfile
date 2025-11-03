@@ -4,7 +4,7 @@ tap "wickenico/wailbrew"
 # tap "TheBoredTeam/boring-notch"
 
 # Set arguments passed to all `brew install --cask` commands for `cask "..."`
-cask_args appdir: "~/Applications", greedy: true, require_sha: true
+cask_args appdir: "~/Applications", require_sha: true
 
 # Mac App Store command-line interface
 brew "mas"
@@ -34,21 +34,21 @@ brew "uv"
 brew "pandoc"
 
 # Terminal emulator as alternative to Apple's Terminal app
-cask "iterm2"
+cask "iterm2", greedy: true
 # Open-source code editor
-cask "visual-studio-code"
+cask "visual-studio-code", greedy: true
 # Desktop client for GitHub repositories
-cask "github"
+cask "github", greedy: true
 # Minimal installer for conda specific to conda-forge
 # Automatically updates the conda environment after installation
-cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes && mamba clean -yaf"
+cask "miniforge", args: { appdir: "/Applications" }
 # cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes && mamba clean -yaf"
 # App to build and share containerised applications and microservices
-cask "docker-desktop"
+cask "docker-desktop", greedy: true
 # Google Chrome Web browser
-cask "google-chrome"
+cask "google-chrome", greedy: true
 # Full TeX Live distribution with GUI applications
-cask "mactex"
+cask "mactex", greedy: true
 # LaTeX typesetting for PowerPoint
 cask "iguanatexmac"
 # Graphical interface for LaTeX
@@ -57,21 +57,21 @@ cask "iguanatexmac"
 # Display management tool
 # cask "betterdisplay"
 # Client for Proton Drive
-cask "proton-drive", args: { appdir: "/Applications" }
+cask "proton-drive", args: { appdir: "/Applications" }, greedy: true
 # VPN client focusing on security
-cask "protonvpn"
+cask "protonvpn", greedy: true
 # Manage Homebrew packages with a UI
 # cask "wailbrew"
 # OpenAI's official ChatGPT desktop app
-cask "chatgpt"
+cask "chatgpt", greedy: true
 # Anthropic's official Claude AI desktop app
-cask "claude"
+cask "claude", greedy: true
 # Music streaming service
-cask "spotify"
+cask "spotify", greedy: true
 # Multi-agent programmable modelling environment
 cask "netlogo"
 # Video communication and virtual meeting platform
-cask "zoom"
+cask "zoom", greedy: true
 # Collect, organise, cite, and share research sources
 cask "zotero"
 # Web browser environment to carry out e-assessments safely
