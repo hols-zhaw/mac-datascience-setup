@@ -78,6 +78,8 @@ cask "zotero"
 cask "safe-exam-browser", args: { appdir: "/Applications" }
 # The boring notch (https://theboring.name)
 # cask "boring-notch"
+# Manage audio systems
+cask "bluos-controller"
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
