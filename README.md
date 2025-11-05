@@ -80,12 +80,61 @@ make latex-perl  # (Optional) Install Perl modules for latexindent
 
 ## Notes
 
+### General
+
 - First run requires interaction for Xcode Command Line Tools installation
 - Applications install to `~/Applications` by default
 - Shell configuration is added to `~/.zprofile` and `~/.zshenv`
 - Conda is configured to not auto-activate the base environment
 
+### LaTeX Code Formatting in VS Code
+
+**Solution**: The LaTeX Workshop extension requires Perl modules for `latexindent` to format code. After installing MacTeX, run:
+
+```bash
+make latex-perl
+```
+
+This installs the required Perl modules (File::HomeDir, YAML::Tiny, Unicode::GCString) system-wide.
+
+**Note**: Modules must be installed with `sudo cpan` to be accessible to system-installed tools like `latexindent`.
+
 ## Further Tools to Explore
+
+### Node.js and pnpm
+
+See https://nodejs.org/en/download
+
+```
+# Download and install Node.js:
+brew install node@24
+
+# Verify the Node.js version:
+node -v # Should print "v24.11.0".
+
+# Download and install pnpm:
+corepack enable pnpm
+
+# Verify pnpm version:
+pnpm -v
+```
+
+Caveats:
+
+```
+node@24 is keg-only, which means it was not symlinked into /opt/homebrew,
+because this is an alternate version of another formula.
+
+If you need to have node@24 first in your PATH, run:
+  echo 'export PATH="/opt/homebrew/opt/node@24/bin:$PATH"' >> ~/.zshrc
+
+For compilers to find node@24 you may need to set:
+  export LDFLAGS="-L/opt/homebrew/opt/node@24/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/node@24/include"
+```
+
+
+
 
 ### Mac App Store CLI (`mas`)
 
@@ -112,17 +161,7 @@ Manage dotfiles across machines:
 
 ## Known Issues
 
-### LaTeX Code Formatting in VS Code
 
-**Solution**: The LaTeX Workshop extension requires Perl modules for `latexindent` to format code. After installing MacTeX, run:
-
-```bash
-make latex-perl
-```
-
-This installs the required Perl modules (File::HomeDir, YAML::Tiny, Unicode::GCString) system-wide.
-
-**Note**: Modules must be installed with `sudo cpan` to be accessible to system-installed tools like `latexindent`.
 
 ## License
 
