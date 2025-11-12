@@ -32,6 +32,8 @@ brew "typst"
 brew "uv"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node@24"
 
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2", greedy: true
