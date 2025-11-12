@@ -51,11 +51,6 @@ cask "google-chrome", greedy: true
 cask "mactex", greedy: true
 # LaTeX typesetting for PowerPoint
 cask "iguanatexmac"
-# Graphical interface for LaTeX
-# cask "latexit"
-# cask "latexit-metadata"
-# Display management tool
-# cask "betterdisplay"
 # Client for Proton Drive
 cask "proton-drive", args: { appdir: "/Applications" }, greedy: true
 # VPN client focusing on security
@@ -76,10 +71,19 @@ cask "zoom", greedy: true
 cask "zotero"
 # Web browser environment to carry out e-assessments safely
 cask "safe-exam-browser", args: { appdir: "/Applications" }
-# The boring notch (https://theboring.name)
-# cask "boring-notch"
 # Manage audio systems
 cask "bluos-controller"
+# File archiver
+cask "keka"
+# Unpacks archive files
+cask "the-unarchiver"
+# Graphical interface for LaTeX
+# cask "latexit"
+# cask "latexit-metadata"
+# Display management tool
+# cask "betterdisplay"
+# The boring notch (https://theboring.name)
+# cask "boring-notch"
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
