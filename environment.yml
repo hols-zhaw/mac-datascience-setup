@@ -17,6 +17,7 @@ dependencies:
   - statsmodels
   - salabim
   - statannotations
+  - pingouin
   - jupyter
   - black
   - black-jupyter
