@@ -133,9 +133,6 @@ For compilers to find node@24 you may need to set:
   export CPPFLAGS="-I/opt/homebrew/opt/node@24/include"
 ```
 
-
-
-
 ### Mac App Store CLI (`mas`)
 
 Install Mac App Store apps via command line:
@@ -161,7 +158,13 @@ Manage dotfiles across machines:
 
 ## Known Issues
 
+## Uninstalling Casks
 
+Uninstalling cask applications with all associated files:
+
+```bash
+brew uninstall [app] --cask --zap --force
+```
 
 ## License
 

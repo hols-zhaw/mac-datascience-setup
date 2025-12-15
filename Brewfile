@@ -83,7 +83,7 @@ cask "the-unarchiver"
 # cask "latexit"
 # cask "latexit-metadata"
 # Display management tool
-cask "betterdisplay"
+# cask "betterdisplay"
 # The boring notch (https://theboring.name)
 # cask "boring-notch"
 # Folder comparison and synchronization software
