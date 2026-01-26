@@ -88,6 +88,8 @@ cask "the-unarchiver"
 # cask "boring-notch"
 # Folder comparison and synchronization software
 cask "freefilesync"
+# Write, edit, and chat about your code with AI
+cask "cursor", greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
