@@ -4,13 +4,17 @@
 # This Makefile orchestrates the complete setup of a data science environment on macOS:
 #   - Installs Xcode Command Line Tools and Homebrew package manager
 #   - Installs all packages, applications, and fonts from Brewfile
+#   - Installs Miniforge (conda/mamba) following the recommended method
 #   - Configures Conda/Mamba and creates Python environment from environment.yml
 #
 # Usage:
-#   make all       - Run complete setup (homebrew → bundle → python)
+#   make all       - Run complete setup (homebrew → bundle → miniforge → conda)
 #   make homebrew  - Install and configure Homebrew only
 #   make bundle    - Install Brewfile packages only
-#   make conda     - Setup Conda/Mamba Python environment only
+#   make miniforge - Install Miniforge (conda/mamba) only
+#   make conda     - Initialize Conda/Mamba and setup Python environment
+#   make latex-perl - Install Perl modules for latexindent (optional)
+#   make update    - Update all installed components (Homebrew, Conda, environments)
 #
 # All targets are idempotent and can be run multiple times safely.
 
@@ -19,17 +23,19 @@ BREWFILE := Brewfile
 BREW := /opt/homebrew/bin/brew
 CONDA_ENV_FILE := environment.yml
 DEFAULT_CONDA_ENV_NAME := default
+MINIFORGE_PREFIX := $(HOME)/miniforge3
 
-.PHONY: all homebrew bundle conda latex-perl
+.PHONY: all homebrew bundle miniforge conda latex-perl update
 
 # --- Main target: Complete setup ---
-all: homebrew bundle conda
+all: homebrew bundle miniforge conda
 	@echo ""
 	@echo "=========================================="
 	@echo "✅ Complete setup finished successfully!"
 	@echo "=========================================="
 	@echo ""
 	@echo "ℹ️  Optional: Run 'make latex-perl' to install Perl modules for latexindent"
+	@echo "ℹ️  Keep updated: Run 'make update' to update all components"
 	@echo ""
 
 # --- Step 1: Homebrew installation and configuration ---
@@ -107,22 +113,83 @@ bundle: homebrew
 	@echo "✅ All Brewfile packages installed!"
 	@echo ""
 
-# --- Step 3: Conda/Mamba Python environment setup ---
-# Verifies Conda installation and configures shell integration
-# Detects mamba for faster operations (falls back to conda if not available)
+# --- Step 3: Miniforge installation ---
+# Installs Miniforge following the recommended method from conda-forge/miniforge repository
+# Downloads the installer script for the current OS and architecture
+# Runs installer in batch mode (non-interactive) with default settings
+# Does NOT initialize conda/mamba - use 'make conda' for initialization
+# Idempotent: Safe to run multiple times, skips if already installed
+miniforge:
+	@echo "=========================================="
+	@echo "==> Step 3: Miniforge Installation"
+	@echo "=========================================="
+	@echo ""
+	@echo "Checking Miniforge installation..."
+	@if [ -d "$(MINIFORGE_PREFIX)" ] && [ -x "$(MINIFORGE_PREFIX)/bin/conda" ]; then \
+		echo "  ✅ Miniforge is already installed at $(MINIFORGE_PREFIX)"; \
+		echo ""; \
+		echo "ℹ️  To reinstall, first remove the existing installation:"; \
+		echo "   rm -rf $(MINIFORGE_PREFIX)"; \
+		echo ""; \
+	else \
+		echo "  Miniforge not found at $(MINIFORGE_PREFIX)"; \
+		echo ""; \
+		echo "Detecting system architecture..."; \
+		INSTALLER_NAME="Miniforge3-$$(uname)-$$(uname -m).sh"; \
+		DOWNLOAD_URL="https://github.com/conda-forge/miniforge/releases/latest/download/$$INSTALLER_NAME"; \
+		echo "  OS: $$(uname)"; \
+		echo "  Architecture: $$(uname -m)"; \
+		echo "  Installer: $$INSTALLER_NAME"; \
+		echo ""; \
+		echo "⬇️  Downloading Miniforge installer..."; \
+		if curl -L -O "$$DOWNLOAD_URL"; then \
+			echo "  ✅ Download complete"; \
+		else \
+			echo "  ❌ Failed to download installer"; \
+			echo ""; \
+			exit 1; \
+		fi; \
+		echo ""; \
+		echo "Installing Miniforge to $(MINIFORGE_PREFIX)..."; \
+		if bash "$$INSTALLER_NAME" -b -p "$(MINIFORGE_PREFIX)"; then \
+			echo "  ✅ Miniforge installed successfully"; \
+		else \
+			echo "  ❌ Installation failed"; \
+			echo ""; \
+			rm -f "$$INSTALLER_NAME"; \
+			exit 1; \
+		fi; \
+		echo ""; \
+		echo "Cleaning up installer..."; \
+		rm -f "$$INSTALLER_NAME"; \
+		echo "  ✅ Installer removed"; \
+		echo ""; \
+		echo "🐍 Miniforge installation complete!"; \
+		echo ""; \
+		echo "   Installation directory: $(MINIFORGE_PREFIX)"; \
+		echo "   Conda command: $(MINIFORGE_PREFIX)/bin/conda"; \
+		echo "   Mamba command: $(MINIFORGE_PREFIX)/bin/mamba"; \
+		echo ""; \
+		echo "ℹ️  Run 'make conda' to initialize conda/mamba for your shell"; \
+		echo ""; \
+	fi
+
+# --- Step 4: Conda/Mamba initialization and Python environment setup ---
+# Initializes conda/mamba shell integration and manages Python environments
 # Creates or updates Python environment from $(CONDA_ENV_FILE) specification
 # Steps:
-#   1. Verify conda is installed (required for shell initialization)
-#   2. Initialize conda for zsh with proper shell hooks
+#   1. Verify conda is installed
+#   2. Initialize conda for zsh (which also enables mamba)
 #   3. Configure conda to not auto-activate base environment
-#   4. Parse environment name from $(CONDA_ENV_FILE) or use $(DEFAULT_CONDA_ENV_NAME)
-#   5. Detect mamba availability (faster alternative to conda)
+#   4. Verify mamba is available
+#   5. Parse environment name from $(CONDA_ENV_FILE) or use $(DEFAULT_CONDA_ENV_NAME)
 #   6. Create new environment or update existing one (with --prune flag)
 #   7. Clean package cache to reclaim disk space
+# Note: Conda initialization modifies ~/.zshrc to enable conda/mamba at shell startup
 # Idempotent: Safe to run multiple times, updates environment if it exists
 conda:
 	@echo "=========================================="
-	@echo "==> Step 3: Conda Python Environment Setup"
+	@echo "==> Step 4: Conda Python Environment Setup"
 	@echo "=========================================="
 	@echo ""
 	@echo "Verifying Conda installation..."
@@ -130,11 +197,11 @@ conda:
 		echo "  ❌ Conda is not installed"; \
 		echo ""; \
 		echo "  Conda is required for Python environment management."; \
-		echo "  Install Miniforge via Homebrew:"; \
+		echo "  Install Miniforge using the recommended method:"; \
 		echo ""; \
-		echo "    brew install --cask miniforge"; \
+		echo "    make miniforge"; \
 		echo ""; \
-		echo "  Then restart your shell and run 'make python' again."; \
+		echo "  Then restart your shell and run 'make conda' again."; \
 		echo ""; \
 		exit 1; \
 	fi
@@ -163,12 +230,20 @@ conda:
 		echo "  ✅ auto_activate_base already set to false"; \
 	fi
 	@echo ""
+	@echo "Verifying mamba availability..."
+	@if command -v mamba >/dev/null 2>&1; then \
+		echo "  ✅ Mamba is available (version: $$(mamba --version 2>/dev/null | head -n1))"; \
+	else \
+		echo "  ⚠️  Mamba command not found in current shell"; \
+		echo "     Restart your shell or run: source ~/.zshrc"; \
+	fi
+	@echo ""
 	@if [ ! -f $(CONDA_ENV_FILE) ]; then \
 		echo "ℹ️  No $(CONDA_ENV_FILE) found, skipping environment creation"; \
 		echo ""; \
 		echo "   To create a Python environment:"; \
 		echo "   1. Add an $(CONDA_ENV_FILE) file to this directory"; \
-		echo "   2. Run 'make python' again"; \
+		echo "   2. Run 'make conda' again"; \
 		echo ""; \
 		exit 0; \
 	fi
@@ -280,4 +355,117 @@ latex-perl:
 	@echo ""
 	@echo "📝 Perl modules are now available for latexindent"
 	@echo "   (LaTeX Workshop extension can now use latexindent for formatting)"
+	@echo ""
+
+# --- Update target: Update all installed components ---
+# Updates Homebrew packages, casks, Conda/Mamba, and Python environments
+# Steps:
+#   1. Update Homebrew itself
+#   2. Upgrade all Homebrew packages
+#   3. Upgrade all Homebrew casks (if brew-cu is available)
+#   4. Update conda and mamba in base environment
+#   5. Update all conda environments
+# Note: Requires Homebrew, Conda/Mamba to be installed
+# Idempotent: Safe to run multiple times
+update:
+	@echo "=========================================="
+	@echo "==> Updating All Components"
+	@echo "=========================================="
+	@echo ""
+	@echo "Step 1: Updating Homebrew..."
+	@if command -v brew >/dev/null 2>&1; then \
+		if brew update; then \
+			echo "  ✅ Homebrew updated successfully"; \
+		else \
+			echo "  ⚠️  Homebrew update completed with warnings"; \
+		fi; \
+	else \
+		echo "  ⚠️  Homebrew not found, skipping"; \
+	fi
+	@echo ""
+	@echo "Step 2: Upgrading Homebrew packages..."
+	@if command -v brew >/dev/null 2>&1; then \
+		if brew upgrade; then \
+			echo "  ✅ Homebrew packages upgraded"; \
+		else \
+			echo "  ⚠️  No packages to upgrade or upgrade completed with warnings"; \
+		fi; \
+	else \
+		echo "  ⚠️  Homebrew not found, skipping"; \
+	fi
+	@echo ""
+	@echo "Step 3: Upgrading Homebrew casks..."
+	@if command -v brew >/dev/null 2>&1; then \
+		if brew cu -fa 2>/dev/null; then \
+			echo "  ✅ Homebrew casks upgraded"; \
+		else \
+			echo "  ℹ️  brew-cu not available or no casks to upgrade"; \
+			echo "     Install with: brew tap buo/cask-upgrade"; \
+		fi; \
+	else \
+		echo "  ⚠️  Homebrew not found, skipping"; \
+	fi
+	@echo ""
+	@echo "Step 4: Updating Conda and Mamba..."
+	@if command -v conda >/dev/null 2>&1; then \
+		echo "  Updating conda in base environment..."; \
+		if conda update -n base conda --yes 2>&1; then \
+			echo "  ✅ Conda updated successfully"; \
+		else \
+			echo "  ⚠️  Conda update completed with warnings"; \
+		fi; \
+		echo ""; \
+		if command -v mamba >/dev/null 2>&1; then \
+			echo "  Updating mamba in base environment..."; \
+			if mamba update -n base mamba --yes 2>&1; then \
+				echo "  ✅ Mamba updated successfully"; \
+			else \
+				echo "  ⚠️  Mamba update completed with warnings"; \
+			fi; \
+		else \
+			echo "  ℹ️  Mamba not found, skipping"; \
+		fi; \
+	else \
+		echo "  ⚠️  Conda not found, skipping"; \
+		echo "     Install with: make miniforge"; \
+	fi
+	@echo ""
+	@echo "Step 5: Updating Python environments..."
+	@if command -v conda >/dev/null 2>&1 && [ -f $(CONDA_ENV_FILE) ]; then \
+		if command -v yq >/dev/null 2>&1; then \
+			ENV_NAME="$$(yq -r '.name // "$(DEFAULT_CONDA_ENV_NAME)"' $(CONDA_ENV_FILE) 2>/dev/null || echo $(DEFAULT_CONDA_ENV_NAME))"; \
+		else \
+			ENV_NAME="$$(grep '^name:' $(CONDA_ENV_FILE) 2>/dev/null | sed 's/^name:[[:space:]]*//' || echo $(DEFAULT_CONDA_ENV_NAME))"; \
+		fi; \
+		if [ -z "$$ENV_NAME" ] || [ "$$ENV_NAME" = "null" ]; then \
+			ENV_NAME="$(DEFAULT_CONDA_ENV_NAME)"; \
+		fi; \
+		if command -v mamba >/dev/null 2>&1; then \
+			CONDA_CMD=mamba; \
+		else \
+			CONDA_CMD=conda; \
+		fi; \
+		if $$CONDA_CMD env list 2>/dev/null | grep -q "^$$ENV_NAME[[:space:]]"; then \
+			echo "  Updating environment '$$ENV_NAME'..."; \
+			if $$CONDA_CMD env update -f $(CONDA_ENV_FILE) -n $$ENV_NAME --yes --prune 2>&1; then \
+				echo "  ✅ Environment '$$ENV_NAME' updated successfully"; \
+			else \
+				echo "  ❌ Failed to update environment '$$ENV_NAME'"; \
+			fi; \
+		else \
+			echo "  ℹ️  Environment '$$ENV_NAME' not found, skipping"; \
+			echo "     Create with: make conda"; \
+		fi; \
+		echo ""; \
+		echo "Cleaning package cache..."; \
+		if $$CONDA_CMD clean -yaf >/dev/null 2>&1; then \
+			echo "  ✅ Cache cleaned successfully"; \
+		else \
+			echo "  ⚠️  Cache cleanup completed with warnings"; \
+		fi; \
+	else \
+		echo "  ℹ️  No $(CONDA_ENV_FILE) found or Conda not installed, skipping"; \
+	fi
+	@echo ""
+	@echo "✅ Update complete!"
 	@echo ""

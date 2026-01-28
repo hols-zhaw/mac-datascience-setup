@@ -41,10 +41,10 @@ cask "iterm2", greedy: true
 cask "visual-studio-code", greedy: true
 # Desktop client for GitHub repositories
 cask "github", greedy: true
-# Minimal installer for conda specific to conda-forge
-# Automatically updates the conda environment after installation
-cask "miniforge", args: { appdir: "/Applications" }
-# cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes && mamba clean -yaf"
+# # Minimal installer for conda specific to conda-forge
+# # Automatically updates the conda environment after installation
+# cask "miniforge", args: { appdir: "/Applications" }
+# # cask "miniforge", postinstall: "${HOMEBREW_PREFIX}/bin/mamba env update --file environment.yml --prune --yes && mamba clean -yaf"
 # App to build and share containerised applications and microservices
 cask "docker-desktop", greedy: true
 # Google Chrome Web browser

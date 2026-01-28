@@ -15,7 +15,7 @@ Automated setup for a complete data science development environment on macOS usi
 
 - Package managers: Homebrew, mas (Mac App Store CLI)
 - Development tools: git, gh, wget, pandoc, typst
-- Python tooling: uv (package installer), miniforge (conda/mamba)
+- Python tooling: uv (package installer)
 - Utilities: fd, ripgrep, jq, yq, gnupg
 
 ### Applications (via Brewfile)
@@ -30,6 +30,12 @@ Automated setup for a complete data science development environment on macOS usi
 
 - Fira Code (monospace with ligatures)
 - Fira Sans
+
+### Miniforge (conda/mamba)
+
+- Installed following the [recommended method](https://github.com/conda-forge/miniforge)
+- Provides conda and mamba package managers for Python environments
+- Configured with conda-forge as the default channel
 
 ### Python Environment
 
@@ -56,9 +62,27 @@ Run specific parts as needed:
 ```bash
 make homebrew    # Install Xcode tools and Homebrew
 make bundle      # Install Brewfile packages
-make python      # Setup Python environment
+make miniforge   # Install Miniforge (conda/mamba)
+make conda       # Initialize Conda/Mamba and setup Python environment
 make latex-perl  # (Optional) Install Perl modules for latexindent
+make update      # Update all installed components
 ```
+
+### Keeping Your System Updated
+
+Keep all components up-to-date:
+
+```bash
+make update
+```
+
+This will:
+- Update Homebrew itself
+- Upgrade all Homebrew packages
+- Upgrade all Homebrew casks (requires `brew-cu`)
+- Update conda and mamba in base environment
+- Update your Python environment from `environment.yml`
+- Clean package caches
 
 ## Configuration Files
 
@@ -75,8 +99,9 @@ make latex-perl  # (Optional) Install Perl modules for latexindent
 ## Customization
 
 1. Edit `Brewfile` to add/remove packages and applications
-2. Edit `environment.yml` to modify Python packages
-3. Adjust constants at the top of `Makefile` if needed
+2. Edit `Makefile` MINIFORGE_PREFIX constant to change installation location (default: `~/miniforge3`)
+3. Edit `environment.yml` to modify Python packages
+4. Adjust other constants at the top of `Makefile` if needed
 
 ## Notes
 
@@ -84,6 +109,7 @@ make latex-perl  # (Optional) Install Perl modules for latexindent
 
 - First run requires interaction for Xcode Command Line Tools installation
 - Applications install to `~/Applications` by default
+- Miniforge installs to `~/miniforge3` by default (configurable via MINIFORGE_PREFIX in Makefile)
 - Shell configuration is added to `~/.zprofile` and `~/.zshenv`
 - Conda is configured to not auto-activate the base environment
 
