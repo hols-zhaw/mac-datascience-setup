@@ -34,6 +34,7 @@ Automated setup for a complete data science development environment on macOS usi
 ### Miniforge (conda/mamba)
 
 - Installed following the [recommended method](https://github.com/conda-forge/miniforge)
+- Automatically initializes conda/mamba for zsh during installation
 - Provides conda and mamba package managers for Python environments
 - Configured with conda-forge as the default channel
 

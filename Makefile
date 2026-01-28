@@ -116,8 +116,8 @@ bundle: homebrew
 # --- Step 3: Miniforge installation ---
 # Installs Miniforge following the recommended method from conda-forge/miniforge repository
 # Downloads the installer script for the current OS and architecture
-# Runs installer in batch mode (non-interactive) with default settings
-# Does NOT initialize conda/mamba - use 'make conda' for initialization
+# Runs installer in batch mode with -c flag to initialize conda for zsh
+# Sets up conda/mamba commands in ~/.zshrc automatically
 # Idempotent: Safe to run multiple times, skips if already installed
 miniforge:
 	@echo "=========================================="
@@ -151,8 +151,12 @@ miniforge:
 		fi; \
 		echo ""; \
 		echo "Installing Miniforge to $(MINIFORGE_PREFIX)..."; \
-		if bash "$$INSTALLER_NAME" -b -p "$(MINIFORGE_PREFIX)"; then \
+		if bash "$$INSTALLER_NAME" -b -c -p "$(MINIFORGE_PREFIX)"; then \
 			echo "  ✅ Miniforge installed successfully"; \
+			echo ""; \
+			echo "Activating conda for current session..."; \
+			eval "$$($(MINIFORGE_PREFIX)/bin/conda shell.zsh hook 2>/dev/null)"; \
+			echo "  ✅ Conda activated"; \
 		else \
 			echo "  ❌ Installation failed"; \
 			echo ""; \
@@ -170,7 +174,8 @@ miniforge:
 		echo "   Conda command: $(MINIFORGE_PREFIX)/bin/conda"; \
 		echo "   Mamba command: $(MINIFORGE_PREFIX)/bin/mamba"; \
 		echo ""; \
-		echo "ℹ️  Run 'make conda' to initialize conda/mamba for your shell"; \
+		echo "ℹ️  Conda has been initialized for your shell"; \
+		echo "   Restart your shell or run: source ~/.zshrc"; \
 		echo ""; \
 	fi
 
@@ -194,16 +199,23 @@ conda:
 	@echo ""
 	@echo "Verifying Conda installation..."
 	@if ! command -v conda >/dev/null 2>&1; then \
-		echo "  ❌ Conda is not installed"; \
-		echo ""; \
-		echo "  Conda is required for Python environment management."; \
-		echo "  Install Miniforge using the recommended method:"; \
-		echo ""; \
-		echo "    make miniforge"; \
-		echo ""; \
-		echo "  Then restart your shell and run 'make conda' again."; \
-		echo ""; \
-		exit 1; \
+		if [ -x "$(MINIFORGE_PREFIX)/bin/conda" ]; then \
+			echo "  ℹ️  Conda installed but not in current shell session"; \
+			echo "  Loading: $(MINIFORGE_PREFIX)/bin/conda"; \
+			echo ""; \
+			eval "$$($(MINIFORGE_PREFIX)/bin/conda shell.zsh hook 2>/dev/null)"; \
+		else \
+			echo "  ❌ Conda is not installed"; \
+			echo ""; \
+			echo "  Conda is required for Python environment management."; \
+			echo "  Install Miniforge using the recommended method:"; \
+			echo ""; \
+			echo "    make miniforge"; \
+			echo ""; \
+			echo "  Then run 'make conda' again."; \
+			echo ""; \
+			exit 1; \
+		fi; \
 	fi
 	@echo "  ✅ Conda is installed"
 	@echo ""
@@ -222,7 +234,7 @@ conda:
 	fi
 	@echo ""
 	@echo "Configuring Conda settings..."
-	@if conda config --get auto_activate_base 2>/dev/null | grep -q 'True'; then \
+	@if conda config --show auto_activate_base 2>/dev/null | grep -q 'True'; then \
 		echo "  Setting auto_activate_base=false..."; \
 		conda config --set auto_activate_base false 2>/dev/null || true; \
 		echo "  ✅ Base environment will not auto-activate"; \
