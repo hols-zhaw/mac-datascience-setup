@@ -282,7 +282,7 @@ conda:
 	fi; \
 	echo ""; \
 	echo "Checking environment status..."; \
-	if $$CONDA_CMD env list 2>/dev/null | grep -q "^$$ENV_NAME[[:space:]]"; then \
+	if $$CONDA_CMD env list 2>/dev/null | awk '{print $$1}' | grep -q "^$$ENV_NAME$$"; then \
 		echo "  Found existing environment '$$ENV_NAME'"; \
 		echo "  ⬇️  Updating environment..."; \
 		if $$CONDA_CMD env update -f $(CONDA_ENV_FILE) -n $$ENV_NAME --yes --prune 2>&1; then \
@@ -457,7 +457,7 @@ update:
 		else \
 			CONDA_CMD=conda; \
 		fi; \
-		if $$CONDA_CMD env list 2>/dev/null | grep -q "^$$ENV_NAME[[:space:]]"; then \
+		if $$CONDA_CMD env list 2>/dev/null | awk '{print $$1}' | grep -q "^$$ENV_NAME$$"; then \
 			echo "  Updating environment '$$ENV_NAME'..."; \
 			if $$CONDA_CMD env update -f $(CONDA_ENV_FILE) -n $$ENV_NAME --yes --prune 2>&1; then \
 				echo "  ✅ Environment '$$ENV_NAME' updated successfully"; \
