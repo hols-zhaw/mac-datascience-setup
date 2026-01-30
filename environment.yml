@@ -16,6 +16,7 @@ dependencies:
   - pymc
   - statsmodels
   - salabim
+  - greenlet
   - statannotations
   - pingouin
   - jupyter
