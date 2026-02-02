@@ -3,22 +3,10 @@ channels:
   - conda-forge
 dependencies:
   - python=3.13
-  - numpy
-  - pandas
-  - openpyxl
-  - matplotlib
-  - seaborn
-  - scipy
-  - scikit-learn
-  - pytorch
-  - botorch
-  - ax-platform
-  - pymc
-  - statsmodels
-  - salabim
-  - greenlet
-  - statannotations
-  - pingouin
   - jupyter
-  - black
   - black-jupyter
+  - seaborn  # -> matplotlib, numpy, scipy, pandas
+  - openpyxl
+  - pingouin  # -> scikit-learn 
+  - greenlet
+  - salabim
