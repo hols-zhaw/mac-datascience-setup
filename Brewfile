@@ -88,6 +88,8 @@ cask "the-unarchiver"
 # cask "boring-notch"
 # Folder comparison and synchronization software
 cask "freefilesync"
+# Server and cloud storage browser
+cask "cyberduck"
 # Write, edit, and chat about your code with AI
 cask "cursor", greedy: true
 
