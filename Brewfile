@@ -34,6 +34,13 @@ brew "uv"
 brew "pandoc"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node@24"
+# Infamous electronic fortune-cookie generator
+brew "fortune"
+# Apjanke's fork of the classic cowsay project
+brew "cowsay"
+# Rainbows and unicorns in your console!
+brew "lolcat"
+
 
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2", greedy: true
