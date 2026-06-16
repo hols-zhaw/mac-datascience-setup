@@ -28,6 +28,8 @@ brew "gh"
 brew "zsh"
 # Markup-based typesetting system
 brew "typst"
+# Tools and libraries to manipulate images in select formats
+brew install imagemagick
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
 # Swiss-army knife of markup format conversion
@@ -40,7 +42,6 @@ brew "fortune"
 brew "cowsay"
 # Rainbows and unicorns in your console!
 brew "lolcat"
-
 
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2", greedy: true
