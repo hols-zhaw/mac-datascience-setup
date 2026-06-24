@@ -29,7 +29,7 @@ brew "zsh"
 # Markup-based typesetting system
 brew "typst"
 # Tools and libraries to manipulate images in select formats
-brew install imagemagick
+brew "imagemagick"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
 # Swiss-army knife of markup format conversion
@@ -101,7 +101,7 @@ cask "cyberduck"
 # Write, edit, and chat about your code with AI
 cask "cursor", greedy: true
 # Software for Logitech devices
-cask "logi-options+"
+cask "logi-options+", greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
