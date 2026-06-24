@@ -101,7 +101,7 @@ cask "cyberduck"
 # Write, edit, and chat about your code with AI
 cask "cursor", greedy: true
 # Software for Logitech devices
-cask "logi-options+", greedy: true
+cask "logi-options+", args: { appdir: "/Applications" }, greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
