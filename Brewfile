@@ -100,6 +100,8 @@ cask "freefilesync"
 cask "cyberduck"
 # Write, edit, and chat about your code with AI
 cask "cursor", greedy: true
+# Software for Logitech devices
+cask "logi-options+"
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
