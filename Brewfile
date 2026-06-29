@@ -102,6 +102,8 @@ cask "cyberduck"
 cask "cursor", greedy: true
 # Software for Logitech devices
 cask "logi-options+", args: { appdir: "/Applications" }, greedy: true
+# Tool to flash OS images to SD cards & USB drives
+cask "balenaetcher", greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
