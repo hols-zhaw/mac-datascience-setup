@@ -12,3 +12,4 @@ dependencies:
   - plotly
   - greenlet
   - salabim
+  - jupyter-book
