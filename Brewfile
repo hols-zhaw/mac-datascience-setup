@@ -104,6 +104,8 @@ cask "cursor", greedy: true
 cask "logi-options+", args: { appdir: "/Applications" }, greedy: true
 # Tool to flash OS images to SD cards & USB drives
 cask "balenaetcher", greedy: true
+# Scientific and technical publishing system built on Pandoc
+cask "quarto", greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
