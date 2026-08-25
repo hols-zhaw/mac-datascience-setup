@@ -42,6 +42,8 @@ brew "fortune"
 brew "cowsay"
 # Rainbows and unicorns in your console!
 brew "lolcat"
+# Graph visualization software from AT&T and Bell Labs
+brew "graphviz"
 
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2", greedy: true
