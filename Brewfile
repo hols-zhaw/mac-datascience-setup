@@ -108,6 +108,8 @@ cask "logi-options+", args: { appdir: "/Applications" }, greedy: true
 cask "balenaetcher", greedy: true
 # Scientific and technical publishing system built on Pandoc
 cask "quarto", greedy: true
+# End-to-end encrypted instant messaging application
+cask "threema@beta", greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
