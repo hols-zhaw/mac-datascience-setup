@@ -66,7 +66,7 @@ cask "iguanatexmac"
 # Client for Proton Drive
 cask "proton-drive", args: { appdir: "/Applications" }, greedy: true
 # VPN client focusing on security
-cask "protonvpn", greedy: true
+cask "protonvpn", args: { appdir: "/Applications" }, greedy: true
 # Manage Homebrew packages with a UI
 # cask "wailbrew"
 # OpenAI's official ChatGPT desktop app
