@@ -44,6 +44,8 @@ brew "cowsay"
 brew "lolcat"
 # Graph visualization software from AT&T and Bell Labs
 brew "graphviz"
+# Improved top (interactive process viewer)
+brew "htop"
 
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2", greedy: true
@@ -110,6 +112,8 @@ cask "balenaetcher", greedy: true
 cask "quarto", greedy: true
 # End-to-end encrypted instant messaging application
 cask "threema@beta", greedy: true
+# Knowledge base that works on top of a local folder of plain text Markdown files
+cask "obsidian", greedy: true
 
 # Fonts (Homebrew casks)
 cask "font-fira-code"
